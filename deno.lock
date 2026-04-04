@@ -154,6 +154,9 @@
       "integrity": "sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA=="
     }
   },
+  "redirects": {
+    "https://esm.sh/preact@%3E=10?target=deno": "https://esm.sh/preact@10.29.1?target=deno"
+  },
   "remote": {
     "https://deno.land/std@0.118.0/_util/assert.ts": "2f868145a042a11d5ad0a3c748dcf580add8a0dbc0e876eaa0026303a5488f58",
     "https://deno.land/std@0.118.0/_util/os.ts": "dfb186cc4e968c770ab6cc3288bd65f4871be03b93beecae57d657232ecffcac",
@@ -184,8 +187,12 @@
     "https://deno.land/x/media_types@v2.11.1/db.ts": "1eac2b1b57195e41d7e40d7b236a3adeb93b4fa18084b4c9db49144fe685c78d",
     "https://deno.land/x/media_types@v2.11.1/mod.ts": "1be09ec3626332f9fe52a8a9ede852bb76d2207f84bec1f1b16c10555478008f",
     "https://deno.land/x/sift@0.6.0/mod.ts": "d156582201226616af9c27cf93ee06610fc907700dcc09802e3741d2b14042bd",
+    "https://esm.sh/preact-render-to-string@5.2.4/deno/preact-render-to-string.mjs": "5336f6c9ddf3eab230bb6941d0b8af593da11fc071802d472a420302a0031880",
     "https://esm.sh/preact-render-to-string@5.2.4?target=deno": "0009f408a73870741bbada82699372da56e39f5ef19d909bdff53bd5a122546b",
-    "https://esm.sh/preact@10.10.6?target=deno": "79dd3cfa108f7f73fddc1695f66267cd81e536158ca99b58571ea809818516f5"
+    "https://esm.sh/preact@10.10.6/deno/preact.mjs": "faed151e239af5a78b535bbef420f14da067eee75418f2dff3443d7649e879e5",
+    "https://esm.sh/preact@10.10.6?target=deno": "79dd3cfa108f7f73fddc1695f66267cd81e536158ca99b58571ea809818516f5",
+    "https://esm.sh/preact@10.29.1/deno/preact.mjs": "912a81248f80523f51f78f36be98a2f6c1d643dadc3e6df2ddb200eadef2dcad",
+    "https://esm.sh/preact@10.29.1?target=deno": "f54ebd79c0b1bd8873d4ab7412bd44d7ee5ff4254530de49cac366e06c95b496"
   },
   "workspace": {
     "dependencies": [

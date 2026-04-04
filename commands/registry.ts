@@ -12,7 +12,12 @@ function isCommandModule(value: unknown): value is CommandModule {
       && definition
       && typeof definition.name === "string"
       && typeof definition.description === "string"
-      && definition.type === 1,
+      && definition.type === 1
+      && (
+        moduleValue.scope === undefined
+        || moduleValue.scope === "global"
+        || moduleValue.scope === "guild"
+      ),
   );
 }
 

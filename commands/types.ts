@@ -4,6 +4,8 @@ export type CommandDefinition = {
   type: 1;
 };
 
+export type CommandScope = "global" | "guild";
+
 export type CommandContext = {
   interaction: {
     member?: {
@@ -17,6 +19,7 @@ export type CommandContext = {
 
 export type CommandModule = {
   definition: CommandDefinition;
+  scope?: CommandScope;
   handleCommand: (
     context: CommandContext,
   ) => Promise<{

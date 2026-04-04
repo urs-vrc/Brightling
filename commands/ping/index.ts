@@ -7,6 +7,7 @@ function buildPingMessage(requestStartedAt: number): string {
 }
 
 const pingCommand: CommandModule = {
+  scope: "global",
   definition: {
     name: "ping",
     description: "Check gateway RTT",

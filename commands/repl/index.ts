@@ -7,6 +7,7 @@ import {
 const MODAL_RESPONSE_TYPE = 9;
 
 const replCommand: CommandModule = {
+  scope: "global",
   definition: {
     name: "repl",
     description: "Run Python code in a safe sandbox",
