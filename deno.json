@@ -1,0 +1,11 @@
+{
+  "nodeModulesDir": "auto",
+  "imports": {
+    "axios": "npm:axios@1.7.9",
+    "discord-api-types/rest-v10": "npm:discord-api-types@0.37.66/rest/v10",
+    "discord-api-types/v10": "npm:discord-api-types@0.37.66/v10",
+    "pyodide": "npm:pyodide@0.29.3",
+    "sift": "https://deno.land/x/sift@0.6.0/mod.ts",
+    "tweetnacl": "npm:tweetnacl@1.0.3"
+  }
+}

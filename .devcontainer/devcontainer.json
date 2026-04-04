@@ -1,0 +1,30 @@
+{
+  "name": "Bun",
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [
+    // Http
+    3000
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "upgradePackages": true,
+      "username": "vscode",
+      "userUid": 1000,
+      "userGid": 1000
+    },
+    "ghcr.io/devcontainers-community/features/deno": {
+      "version": "latest"
+    }
+  },
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "denoland.vscode-deno"
+      ]
+    }
+  }
+}
