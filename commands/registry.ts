@@ -1,7 +1,5 @@
 import type { CommandModule } from "./types.ts";
 
-const SELF_FILES = new Set(["registry.ts", "types.ts"]);
-
 function isCommandModule(value: unknown): value is CommandModule {
   if (!value || typeof value !== "object") return false;
 
@@ -23,11 +21,11 @@ export async function discoverCommandModules(): Promise<CommandModule[]> {
   const modules: CommandModule[] = [];
 
   for await (const entry of Deno.readDir(commandsDirectory)) {
-    if (!entry.isFile || !entry.name.endsWith(".ts") || SELF_FILES.has(entry.name)) {
+    if (!entry.isDirectory) {
       continue;
     }
 
-    const moduleUrl = new URL(entry.name, commandsDirectory).href;
+    const moduleUrl = new URL(`${entry.name}/index.ts`, commandsDirectory).href;
     const imported = await import(moduleUrl);
     if (!isCommandModule(imported.default)) {
       throw new Error(`Invalid command module in ${entry.name}`);

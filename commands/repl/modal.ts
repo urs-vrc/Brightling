@@ -1,33 +1,17 @@
 import { RouteBases, Routes } from "discord-api-types/rest-v10";
 import { loadPyodide } from "pyodide";
-import type { ModalHandler, ModalHandlerResponse, ModalSubmitContext } from "../modal/types.ts";
+import {
+  REPL_MODAL_CODE_FIELD_ID,
+  REPL_MODAL_PREFIX,
+} from "./constants.ts";
+import type { ModalHandlerResponse, ModalSubmitContext } from "../modal/types.ts";
+import type {
+  ModalRow,
+  PyodideLike,
+  ReplExecutionResult,
+} from "./types.ts";
 
-export const REPL_MODAL_PREFIX = "repl_modal_";
-export const REPL_MODAL_CODE_FIELD_ID = "code";
 const DEFERRED_RESPONSE_TYPE = 5;
-
-type PyodideLike = {
-  runPythonAsync: (code: string) => Promise<string>;
-};
-
-type ReplExecutionResult = {
-  text: string;
-  image: string | null;
-};
-
-type ModalComponent = {
-  custom_id?: string;
-  value?: string;
-};
-
-type ModalRow = {
-  type?: number;
-  components?: ModalComponent[];
-};
-
-type ModalData = {
-  components?: ModalRow[];
-};
 
 let pyodidePromise: Promise<PyodideLike> | null = null;
 
@@ -35,8 +19,10 @@ export function isReplModal(customId: string): boolean {
   return customId.startsWith(REPL_MODAL_PREFIX);
 }
 
-function extractCodeFromReplModal(data: ModalData): string {
-  return data.components
+function extractCodeFromReplModal(data: unknown): string {
+  const modalData = data as { components?: ModalRow[] };
+
+  return modalData.components
     ?.find((row) => row.type === 1)
     ?.components?.find((component) => component.custom_id === REPL_MODAL_CODE_FIELD_ID)?.value ?? "";
 }
@@ -180,7 +166,7 @@ async function sendDiscordResponse(
   }
 }
 
-function handleReplModalSubmit(input: ModalSubmitContext): ModalHandlerResponse {
+export function handleReplModalSubmit(input: ModalSubmitContext): ModalHandlerResponse {
   const codeInput = extractCodeFromReplModal(input.data);
 
   queueMicrotask(async () => {
@@ -208,9 +194,3 @@ function handleReplModalSubmit(input: ModalSubmitContext): ModalHandlerResponse 
     data: { flags: 0 },
   };
 }
-
-export const replModalHandler: ModalHandler = {
-  name: "repl",
-  canHandle: isReplModal,
-  handle: handleReplModalSubmit,
-};

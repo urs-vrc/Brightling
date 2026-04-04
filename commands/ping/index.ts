@@ -1,5 +1,5 @@
 import { InteractionResponseType } from "discord-api-types/v10";
-import type { CommandModule } from "./types.ts";
+import type { CommandModule } from "../types.ts";
 
 function buildPingMessage(requestStartedAt: number): string {
   const elapsedMs = Math.max(0, Date.now() - requestStartedAt);

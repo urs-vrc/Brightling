@@ -1,8 +1,8 @@
-import type { CommandModule } from "./types.ts";
+import type { CommandModule } from "../types.ts";
 import {
   REPL_MODAL_CODE_FIELD_ID,
   REPL_MODAL_PREFIX,
-} from "./repl/modal.ts";
+} from "./constants.ts";
 
 const MODAL_RESPONSE_TYPE = 9;
 

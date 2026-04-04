@@ -1,5 +1,6 @@
 export type ModalSubmitData = {
   custom_id?: string;
+  components?: unknown;
   [key: string]: unknown;
 };
 
