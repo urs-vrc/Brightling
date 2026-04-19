@@ -65,9 +65,6 @@ export async function submitNewTeamToTeamDB(
 
 	try {
 		await octokit.request("POST /repos/urs-vrc/teamdb/actions/workflows/brightling-submit.yaml/dispatches", {
-			owner: "urs-vrc",
-			repo: "teamdb",
-			ref: "main",
 			inputs: {
 				team_handle: handle,
 				team_fqdn: fqdn,
