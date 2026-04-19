@@ -42,29 +42,45 @@ export function appendCSVRow(csvData: string, newRow: string): string {
 }
 
 /**
- * Triggers the GitHub Actions workflow to update the TeamDB with the provided CSV data.
- * @param handle The TeamDB handle to update 
- * @param csvData The CSV data to update the TeamDB with, as a string
+ * Submits a new team to the TeamDB via the official brightling-submit workflow.
+ * This is the main integration point with https://github.com/urs-vrc/teamdb/.github/workflows/brightling-submit.yaml
  */
-export function triggerTeamDBUpdate(handle: string, csvData: string) {
+export async function submitNewTeamToTeamDB(
+	handle: string,
+	fqdn: string,
+	description: string = "",
+	membersCsvLines: string,
+) {
 	const githubToken = Deno.env.get("GITHUB_TOKEN");
+	const submissionSecret = Deno.env.get("TEAM_SUBMISSION_SECRET");
 
-	if (!githubToken)
-		throw new Error("Missing GITHUB_TOKEN in .env, cannot perform transaction");
+	if (!githubToken) {
+		throw new Error("Missing GITHUB_TOKEN in environment — cannot submit to TeamDB");
+	}
+	if (!submissionSecret) {
+		throw new Error("Missing TEAM_SUBMISSION_SECRET in environment");
+	}
 
 	const octokit = new Octokit({ auth: githubToken });
-	const encodedCSV = encodeCSVToBase64(csvData);
 
-	octokit.request("POST /repos/urs-vrc/teamdb/actions/workflows/brightling-submit.yaml/dispatches", {
-		owner: "urs-vrc",
-		repo: "teamdb",
-		ref: "main",
-		inputs: {
-			handle,
-			csv_data: encodedCSV,
-		},
-	});
+	try {
+		await octokit.request("POST /repos/urs-vrc/teamdb/actions/workflows/brightling-submit.yaml/dispatches", {
+			owner: "urs-vrc",
+			repo: "teamdb",
+			ref: "main",
+			inputs: {
+				team_handle: handle,
+				team_fqdn: fqdn,
+				team_description: description,
+				members_csv_lines: membersCsvLines,
+				submission_secret: submissionSecret,
+			},
+		});
 
-	// TODO: figure out what to do next here, my brain short-circuited at this point
-	// はりきって行こう！
+		console.log(`✅ Workflow dispatch sent for team ${handle} (${fqdn})`);
+		return { success: true, handle, fqdn };
+	} catch (error) {
+		console.error("❌ Failed to dispatch team submission workflow:", error);
+		throw error;
+	}
 }
