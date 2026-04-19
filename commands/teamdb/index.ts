@@ -100,7 +100,7 @@ const teamdbCommand: CommandModule = {
                 type: 4,
                 custom_id: "members_csv",
                 label: "Members CSV (one per line)",
-                placeholder: "sr229,Minori みのり,EC+LS,0\\nalyca,Alyca,EC+LS,1",
+                placeholder: "sr229,Minori みのり,EC+LS,0\nalyca,Alyca,EC+LS,1",
                 style: 2,
                 required: true,
                 min_length: 10,
