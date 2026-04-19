@@ -30,10 +30,26 @@ export async function discoverCommandModules(): Promise<CommandModule[]> {
       continue;
     }
 
-    const moduleUrl = new URL(`${entry.name}/index.ts`, commandsDirectory).href;
-    const imported = await import(moduleUrl);
+    const modulePath = new URL(`${entry.name}/index.ts`, commandsDirectory);
+
+    try {
+      const stat = await Deno.stat(modulePath);
+      console.log(`Found command module: ${entry.name}`);
+      if (!stat.isFile) {
+        continue;
+      }
+    } catch (error: unknown) {
+      console.error(`Error occurred while reading ${entry.name}:`, error);
+      if (error instanceof Deno.errors.NotFound) {
+        continue;
+      }
+      throw error;
+    }
+
+    const imported = await import(modulePath.href);
     if (!isCommandModule(imported.default)) {
-      throw new Error(`Invalid command module in ${entry.name}`);
+      console.error(`Invalid command module in ${entry.name}`);
+      continue;
     }
 
     modules.push(imported.default);
