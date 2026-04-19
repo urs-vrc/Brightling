@@ -83,8 +83,8 @@ function validateSubmission(handle: string, fqdn: string, membersCsv: string): s
     return "Missing required fields.";
   }
 
-  if (handle.length < 3 || handle.length > 5) {
-    return "Team handle must be 3-5 characters.";
+  if (handle.length < 3 || handle.length > 4) {
+    return "Team handle must be 3-4 characters.";
   }
 
   return null;

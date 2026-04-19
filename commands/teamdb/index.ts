@@ -59,7 +59,7 @@ const teamdbCommand: CommandModule = {
                 style: 1,
                 required: true,
                 min_length: 3,
-                max_length: 5,
+                max_length: 4,
               },
             ],
           },
