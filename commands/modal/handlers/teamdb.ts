@@ -63,7 +63,7 @@ function buildSuccessMessage(handle: string, fqdn: string, description: string):
     `FQDN: ${fqdn}`,
     `Description: ${description || "(none)"}`,
     "",
-    "The workflow has been triggered. A PR should appear shortly in https://github.com/urs-vrc/teamdb if validation passes.",
+    "Your submission has been received. A PR should appear shortly in https://github.com/urs-vrc/teamdb if validation passes.",
   ].join("\n");
 }
 
@@ -83,8 +83,8 @@ function validateSubmission(handle: string, fqdn: string, membersCsv: string): s
     return "Missing required fields.";
   }
 
-  if (handle.length < 3 || handle.length > 32) {
-    return "Team handle must be 3-32 characters.";
+  if (handle.length < 3 || handle.length > 5) {
+    return "Team handle must be 3-5 characters.";
   }
 
   return null;
