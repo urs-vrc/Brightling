@@ -2,6 +2,18 @@ export type CommandDefinition = {
   name: string;
   description: string;
   type: 1;
+  options?: Array<{
+    type: number;
+    name: string;
+    description: string;
+    required?: boolean;
+    options?: Array<{
+      type: number;
+      name: string;
+      description: string;
+      required?: boolean;
+    }>;
+  }>;
 };
 
 export type CommandScope = "global" | "guild";
