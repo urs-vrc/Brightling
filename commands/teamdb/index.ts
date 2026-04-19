@@ -14,7 +14,7 @@ function buildTeamdbSubmitModalCustomId(userId: string | undefined): string {
 }
 
 const teamdbCommand: CommandModule = {
-  scope: "global",
+  scope: "guild",
   definition: {
     name: "teamdb",
     description: "TeamDB integrations",
@@ -55,11 +55,11 @@ const teamdbCommand: CommandModule = {
                 type: 4,
                 custom_id: "team_handle",
                 label: "Team Handle",
-                placeholder: "GREY",
+                placeholder: "myteam",
                 style: 1,
                 required: true,
                 min_length: 3,
-                max_length: 5,
+                max_length: 32,
               },
             ],
           },
@@ -69,13 +69,10 @@ const teamdbCommand: CommandModule = {
               {
                 type: 4,
                 custom_id: "team_fqdn",
-                label: "Team Name",
-                placeholder: "Greycoats",
+                label: "Team FQDN / Identifier",
+                placeholder: "myteam.example.com or unique-id",
                 style: 1,
                 required: true,
-                min_length: 3,
-                max_length: 32,
-
               },
             ],
           },
@@ -86,7 +83,7 @@ const teamdbCommand: CommandModule = {
                 type: 4,
                 custom_id: "team_description",
                 label: "Description (optional)",
-                placeholder: "Put something descriptive here! This will show up in the TeamDB listing.",
+                placeholder: "A fun team focused on speedrunning...",
                 style: 2,
                 required: false,
                 max_length: 500,
@@ -100,7 +97,7 @@ const teamdbCommand: CommandModule = {
                 type: 4,
                 custom_id: "members_csv",
                 label: "Members CSV (one per line)",
-                placeholder: "sr229,Minori みのり,EC+LS,0\nalyca,Alyca,EC+LS,1",
+                placeholder: "AyaseMinori_,Ayase Minori,Speedrunner,Leader\\nOtherUser,VRCName,Casual,Member",
                 style: 2,
                 required: true,
                 min_length: 10,
