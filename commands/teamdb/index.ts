@@ -89,7 +89,7 @@ const teamdbCommand: CommandModule = {
                 placeholder: "Put something descriptive here! This will show up in the TeamDB listing.",
                 style: 2,
                 required: false,
-                max_length: 500,
+                max_length: 256,
               },
             ],
           },
