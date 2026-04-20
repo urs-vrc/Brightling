@@ -1,4 +1,5 @@
 import { RouteBases, Routes } from "discord-api-types/rest-v10";
+import { InteractionResponseType } from "discord-api-types/v10";
 import type { ModalHandler, ModalHandlerResponse, ModalSubmitContext } from "../types.ts";
 import { submitNewTeamToTeamDB, validateCSV } from "../../teamdb/utils.ts";
 import { TEAMDB_MODAL_PREFIX } from "../../teamdb/index.ts";
@@ -90,30 +91,37 @@ function validateSubmission(handle: string, fqdn: string, membersCsv: string): s
   return null;
 }
 
-function handleTeamdbModalSubmit(input: ModalSubmitContext): ModalHandlerResponse {
+async function handleTeamdbModalSubmit(input: ModalSubmitContext): Promise<ModalHandlerResponse> {
   const handle = extractFieldValue(input.data, "team_handle");
   const fqdn = extractFieldValue(input.data, "team_fqdn");
   const description = extractFieldValue(input.data, "team_description");
   const membersCsv = extractFieldValue(input.data, "members_csv");
 
+  const validationError = validateSubmission(handle, fqdn, membersCsv);
+  if (validationError) {
+    return {
+      type: InteractionResponseType.ChannelMessageWithSource,
+      data: {
+        content: validationError,
+        flags: 64,
+      },
+    };
+  }
+
+  const csvValidation = await validateCSV(membersCsv);
+  if (!csvValidation.isValid) {
+    return {
+      type: InteractionResponseType.ChannelMessageWithSource,
+      data: {
+        content:
+          `Members CSV is invalid: ${csvValidation.error ?? "Unknown CSV validation error."}\nAre you lost? Check the template: https://github.com/urs-vrc/teamdb/tree/main/.template`,
+        flags: 64,
+      },
+    };
+  }
+
   queueMicrotask(async () => {
     try {
-      const validationError = validateSubmission(handle, fqdn, membersCsv);
-      if (validationError) {
-        await sendDiscordResponse(input.applicationId, input.token, validationError);
-        return;
-      }
-
-      const csvValidation = await validateCSV(membersCsv);
-      if (!csvValidation.isValid) {
-        await sendDiscordResponse(
-          input.applicationId,
-          input.token,
-          `Members CSV is invalid: ${csvValidation.error ?? "Unknown CSV validation error."}\nAre you lost? Check the template: https://github.com/urs-vrc/teamdb/tree/main/.template`,
-        );
-        return;
-      }
-
       await submitNewTeamToTeamDB(handle, fqdn, description, membersCsv);
       await sendDiscordResponse(
         input.applicationId,
