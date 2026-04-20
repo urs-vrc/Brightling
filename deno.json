@@ -1,13 +1,13 @@
 {
   "nodeModulesDir": "auto",
   "imports": {
+    "@std/csv": "jsr:@std/csv@^1.0.6",
     "axios": "npm:axios@1.7.9",
     "discord-api-types/rest-v10": "npm:discord-api-types@0.37.66/rest/v10",
     "discord-api-types/v10": "npm:discord-api-types@0.37.66/v10",
     "pyodide": "npm:pyodide@0.29.3",
     "tweetnacl": "npm:tweetnacl@1.0.3",
     "octokit-types": "npm:@octokit/types@^16.0.0",
-    "octokit": "npm:octokit@^5.0.5",
-    "@std/csv": "jsr:@std/csv@^1.0.6"
+    "octokit": "npm:octokit@^5.0.5"
   }
 }
