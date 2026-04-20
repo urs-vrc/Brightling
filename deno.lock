@@ -431,7 +431,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/csv@*",
+      "jsr:@std/csv@^1.0.6",
       "npm:@octokit/types@16",
       "npm:axios@1.7.9",
       "npm:discord-api-types@0.37.66",
