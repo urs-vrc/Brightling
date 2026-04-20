@@ -1,6 +1,6 @@
 import { RouteBases, Routes } from "discord-api-types/rest-v10";
 import type { ModalHandler, ModalHandlerResponse, ModalSubmitContext } from "../types.ts";
-import { submitNewTeamToTeamDB } from "../../teamdb/utils.ts";
+import { submitNewTeamToTeamDB, validateCSV } from "../../teamdb/utils.ts";
 import { TEAMDB_MODAL_PREFIX } from "../../teamdb/index.ts";
 
 type ModalComponent = {
@@ -101,6 +101,16 @@ function handleTeamdbModalSubmit(input: ModalSubmitContext): ModalHandlerRespons
       const validationError = validateSubmission(handle, fqdn, membersCsv);
       if (validationError) {
         await sendDiscordResponse(input.applicationId, input.token, validationError);
+        return;
+      }
+
+      const csvValidation = await validateCSV(membersCsv);
+      if (!csvValidation.isValid) {
+        await sendDiscordResponse(
+          input.applicationId,
+          input.token,
+          `Members CSV is invalid: ${csvValidation.error ?? "Unknown CSV validation error."}\nAre you lost? Check the template: https://github.com/urs-vrc/teamdb/tree/main/.template`,
+        );
         return;
       }
 

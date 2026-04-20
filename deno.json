@@ -7,6 +7,7 @@
     "pyodide": "npm:pyodide@0.29.3",
     "tweetnacl": "npm:tweetnacl@1.0.3",
     "octokit-types": "npm:@octokit/types@^16.0.0",
-    "octokit": "npm:octokit@^5.0.5"
+    "octokit": "npm:octokit@^5.0.5",
+    "@std/csv": "jsr:@std/csv"
   }
 }
