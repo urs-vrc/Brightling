@@ -79,13 +79,17 @@ function buildErrorMessage(error: unknown): string {
   return `Submission failed: ${message || "Unknown error"}`;
 }
 
-function validateSubmission(handle: string, fqdn: string, membersCsv: string): string | null {
+function validateSubmission(handle: string, fqdn: string, membersCsv: string, teamColor: string): string | null {
   if (!handle || !fqdn || !membersCsv) {
     return "Missing required fields.";
   }
 
   if (handle.length < 3 || handle.length > 4) {
     return "Team handle must be 3-4 characters.";
+  }
+
+  if (teamColor && !/^#[0-9A-F]{6}$/i.test(teamColor)) {
+    return "Team color must be a valid hex color code.";
   }
 
   return null;
@@ -95,9 +99,10 @@ async function handleTeamdbModalSubmit(input: ModalSubmitContext): Promise<Modal
   const handle = extractFieldValue(input.data, "team_handle");
   const fqdn = extractFieldValue(input.data, "team_fqdn");
   const description = extractFieldValue(input.data, "team_description");
+  const teamColor = extractFieldValue(input.data, "team_color");
   const membersCsv = extractFieldValue(input.data, "members_csv");
 
-  const validationError = validateSubmission(handle, fqdn, membersCsv);
+  const validationError = validateSubmission(handle, fqdn, membersCsv, teamColor);
   if (validationError) {
     return {
       type: InteractionResponseType.ChannelMessageWithSource,
@@ -122,7 +127,7 @@ async function handleTeamdbModalSubmit(input: ModalSubmitContext): Promise<Modal
 
   queueMicrotask(async () => {
     try {
-      await submitNewTeamToTeamDB(handle, fqdn, description, membersCsv);
+      await submitNewTeamToTeamDB(handle, fqdn, description, teamColor, membersCsv);
       await sendDiscordResponse(
         input.applicationId,
         input.token,

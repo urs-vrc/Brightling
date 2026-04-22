@@ -88,8 +88,22 @@ const teamdbCommand: CommandModule = {
                 label: "Description (optional)",
                 placeholder: "Put something descriptive here! This will show up in the TeamDB listing.",
                 style: 2,
-                required: false,
+                required: false, 
                 max_length: 256,
+              },
+            ],
+          },
+          {
+            type: 1,
+            components: [
+              {
+                type: 4,
+                custom_id: "team_color",
+                label: "Team Color",
+                placeholder: "Enter a hex color code (e.g. #FF0000)",
+                style: 1,
+                required: false,
+                max_length: 7,
               },
             ],
           },
