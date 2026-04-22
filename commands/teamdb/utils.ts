@@ -176,7 +176,7 @@ export async function submitNewTeamToTeamDB(
 	handle: string,
 	fqdn: string,
 	description: string = "",
-	teamColor: string = "",
+	teamColor: string = "#FFFFFF",
 	membersCsvLines: string,
 ) {
 	const githubToken = Deno.env.get("GITHUB_TOKEN");
